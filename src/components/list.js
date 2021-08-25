@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
+import * as Analytics from "expo-firebase-analytics";
 
 const styles = StyleSheet.create({
   container: {
@@ -11,7 +12,7 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 18,
     height: 44,
-    width: 400
+    width: 400,
   },
 });
 
@@ -27,10 +28,32 @@ export const List = ({ navigation, props }) => {
       .catch((error) => console.log(error));
   }, []);
 
-  const _onPress = (index) => {
-    const viewDetailItem = list.splice(index, 1);
+  useEffect(() => {
+    const activeAnalytics = async () => {
+      try {
+        await Analytics.setCurrentScreen("List");
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
 
+    activeAnalytics();
+  }, []);
+
+  const _onPress = async (index) => {
+    try {
+      await Analytics.logEvent("GoToDetailsScreenButton", {
+        name: "user-list",
+        screen: "List",
+        purpose: "view the user details",
+      });
+    } catch (e) {
+      console.log(e.message);
+    }
+
+    const viewDetailItem = list.splice(index, 1);
     props.setViewDetailItem(viewDetailItem[0]);
+
     navigation.navigate("Details");
   };
 
@@ -41,10 +64,12 @@ export const List = ({ navigation, props }) => {
           data={list}
           renderItem={({ item, index }) => (
             <Text
+              key={index}
               onPress={() => _onPress(index)}
               style={styles.item}
             >{`${item.first} ${item.last}`}</Text>
           )}
+          keyExtractor={(item, index) => index.toString()}
         />
       </Text>
     </View>

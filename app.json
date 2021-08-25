@@ -17,16 +17,30 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.firebase.testApp",
+      "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#FFFFFF",
+        "googleServicesFile": "./google-services.json"
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/favicon.png",
+      "config": {
+        "firebase": {
+          "apiKey": "AIzaSyD4B5jh34NupaiBYv7ziKC7IwIxI4XfTnE",
+          "authDomain": "react-native-analytics-95449.firebaseapp.com",
+          "projectId": "react-native-analytics-95449",
+          "storageBucket": "react-native-analytics-95449.appspot.com",
+          "messagingSenderId": "315417069445",
+          "appId": "1:315417069445:web:dc327b4480a338d48b66ec",
+          "measurementId": "G-XEWZ33FYBX"
+        }
+      }
     }
   }
 }
